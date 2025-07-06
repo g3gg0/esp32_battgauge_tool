@@ -19,7 +19,7 @@ This project, `i2c_shell`, is an ESP-IDF application that provides a versatile c
 1.  **Hardware:** An ESP32 development board.
 2.  **Software:** Requires the ESP-IDF (Espressif IoT Development Framework).
 3.  **Configuration:**
-    *   Set your Wi-Fi SSID and password in the project configuration.
+    *   Enable WPS
     *   Define the I2C pins (SDA and SCL) in `main/gpio_config.h` to match your hardware setup.
 4.  **Build and Flash:**
     ```bash

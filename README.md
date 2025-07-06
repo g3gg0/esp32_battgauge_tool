@@ -50,3 +50,17 @@ i2c_w 0x0b 0x01
 # Read all available data from a BQ40Z555 gas gauge
 bq_show
 ```
+
+
+## Images
+
+![Console Screenshot 1](doc/console_1.png)
+![Console Screenshot 2](doc/console_2.png)
+![Console Screenshot 3](doc/console_3.png)
+![Console Screenshot 4](doc/console_4.png)
+![Console Screenshot 5](doc/console_5.png)
+![Console Screenshot 6](doc/console_6.png)
+![Console Screenshot 7](doc/console_7.png)
+![Contacting 1](doc/contact_1.jpg)
+![Contacting 2](doc/contact_2.jpg)
+

@@ -1,6 +1,6 @@
-// bq.c – ESP-IDF esp_console command(s) for TI BQ30Z555 gas-gauge
+// bq.c – ESP-IDF esp_console command(s) for TI BQ40Z555 gas-gauge
 //
-// This module registers commands that talk to a BQ30Z555 over SMBus/I²C using
+// This module registers commands that talk to a BQ40Z555 over SMBus/I²C using
 // the helper function below provided by board support code:
 //      int i2c_write_read(uint8_t addr,
 //                         const uint8_t *wdata, size_t wlen,
@@ -287,44 +287,44 @@ static const bq_bit_desc_t BITS_BATTERY_STATUS[] = {
     {15, 1, .desc = "OCA", .long_desc = "Overcharged Alarm"}};
 
 static const bq_entry bq_commands[] = {
-    {BQ30Z555_CMD_SERIAL_NUMBER, "SerialNumber", "", 0.0f, 1.0f, .type = BQ30Z555_TYPE_WORD_INTEGER},
-    {BQ30Z555_CMD_MANUFACTURER_NAME, "ManufacturerName", "", 0.0f, 1.0f, .type = BQ30Z555_TYPE_BLOCK_ASCII},
-    {BQ30Z555_CMD_DEVICE_NAME, "DeviceName", "", 0.0f, 1.0f, .type = BQ30Z555_TYPE_BLOCK_ASCII},
-    {BQ30Z555_CMD_DEVICE_CHEMISTRY, "DeviceChemistry", "", 0.0f, 1.0f, .type = BQ30Z555_TYPE_BLOCK_ASCII},
-    {BQ30Z555_CMD_MANUFACTURER_DATA, "ManufacturerData", "", 0.0f, 1.0f, .type = BQ30Z555_TYPE_BLOCK_ASCII},
-    {BQ30Z555_CMD_MANUFACTURER_DATE, "ManufacturerDate", "", 0.0f, 1.0f, .type = BQ30Z555_TYPE_WORD_HEX},
-    {BQ30Z555_CMD_VOLTAGE, "Voltage", "V", 0.0f, 0.001f, .type = BQ30Z555_TYPE_WORD_FLOAT},            // mV → V
-    {BQ30Z555_CMD_TEMPERATURE, "Temperature", "°C", -273.15f, 0.1f, .type = BQ30Z555_TYPE_WORD_FLOAT}, // 0.1 K → °C
-    {BQ30Z555_CMD_CURRENT, "Current", "A", 0.0f, 0.001f, .type = BQ30Z555_TYPE_WORD_FLOAT},
-    {BQ30Z555_CMD_CELL_VOLTAGE1, "Cell1Voltage", "V", 0.0f, 0.001f, .type = BQ30Z555_TYPE_WORD_FLOAT},
-    {BQ30Z555_CMD_CELL_VOLTAGE2, "Cell2Voltage", "V", 0.0f, 0.001f, .type = BQ30Z555_TYPE_WORD_FLOAT},
-    {BQ30Z555_CMD_CELL_VOLTAGE3, "Cell3Voltage", "V", 0.0f, 0.001f, .type = BQ30Z555_TYPE_WORD_FLOAT},
-    {BQ30Z555_CMD_CELL_VOLTAGE4, "Cell4Voltage", "V", 0.0f, 0.001f, .type = BQ30Z555_TYPE_WORD_FLOAT},
-    {BQ30Z555_CMD_CYCLE_COUNT, "CycleCount", "cycles", 0.0f, 1.0f, .type = BQ30Z555_TYPE_WORD_INTEGER},
-    {BQ30Z555_CMD_CHARGING_VOLTAGE, "ChargingVoltage", "V", 0.0f, 0.001f, .type = BQ30Z555_TYPE_WORD_FLOAT},
-    {BQ30Z555_CMD_DESIGN_VOLTAGE, "DesignVoltage", "V", 0.0f, 0.001f, .type = BQ30Z555_TYPE_WORD_FLOAT},
-    {BQ30Z555_CMD_MIN_SYS_V, "MinSystemVoltage", "V", 0.0f, 0.001f, .type = BQ30Z555_TYPE_WORD_FLOAT},
-    {BQ30Z555_CMD_AVERAGE_CURRENT, "AverageCurrent", "A", 0.0f, 0.001f, .type = BQ30Z555_TYPE_WORD_FLOAT},
-    {BQ30Z555_CMD_CHARGING_CURRENT, "ChargingCurrent", "A", 0.0f, 0.001f, .type = BQ30Z555_TYPE_WORD_FLOAT},
-    {BQ30Z555_CMD_TURBO_CURRENT, "TurboCurrent", "A", 0.0f, 0.001f, .type = BQ30Z555_TYPE_WORD_FLOAT},
-    {BQ30Z555_CMD_RELATIVE_STATE_OF_CHARGE, "RelativeSoC", "%", 0.0f, 1.0f, .type = BQ30Z555_TYPE_WORD_INTEGER},
-    {BQ30Z555_CMD_ABSOLUTE_STATE_OF_CHARGE, "AbsoluteSoC", "%", 0.0f, 1.0f, .type = BQ30Z555_TYPE_WORD_INTEGER},
-    {BQ30Z555_CMD_STATE_OF_HEALTH, "State of Health", "%", 0.0f, 1.0f, .type = BQ30Z555_TYPE_WORD_INTEGER},
-    {BQ30Z555_CMD_REMAINING_CAPACITY, "RemainingCapacity", "mAh", 0.0f, 1.0f, .type = BQ30Z555_TYPE_WORD_INTEGER},
-    {BQ30Z555_CMD_FULL_CHARGE_CAPACITY, "FullChargeCapacity", "mAh", 0.0f, 1.0f, .type = BQ30Z555_TYPE_WORD_INTEGER},
-    {BQ30Z555_CMD_DESIGN_CAPACITY, "DesignCapacity", "mAh", 0.0f, 1.0f, .type = BQ30Z555_TYPE_WORD_INTEGER},
-    {BQ30Z555_CMD_RUN_TIME_TO_EMPTY, "RunTimeToEmpty", "min", 0.0f, 1.0f, .type = BQ30Z555_TYPE_WORD_INTEGER},
-    {BQ30Z555_CMD_AVERAGE_TIME_TO_EMPTY, "AvgTimeToEmpty", "min", 0.0f, 1.0f, .type = BQ30Z555_TYPE_WORD_INTEGER},
-    {BQ30Z555_CMD_AVERAGE_TIME_TO_FULL, "AvgTimeToFull", "min", 0.0f, 1.0f, .type = BQ30Z555_TYPE_WORD_INTEGER},
-    {BQ30Z555_CMD_BATTERY_STATUS, "BatteryStatus", "", .type = BQ30Z555_TYPE_BLOCK_BITS, .bits = BITS_BATTERY_STATUS, .bits_count = COUNT(BITS_BATTERY_STATUS)},
-    {BQ30Z555_CMD_SAFETY_ALERT, "SafetyAlert", "", .type = BQ30Z555_TYPE_BLOCK_BITS, .bits = SAFETY_ALERT_BITS, .bits_count = COUNT(SAFETY_ALERT_BITS)},
-    {BQ30Z555_CMD_SAFETY_STATUS, "SafetyStatus", .type = BQ30Z555_TYPE_BLOCK_BITS, .bits = BITS_SAFETY_STATUS, .bits_count = COUNT(BITS_SAFETY_STATUS)},
-    {BQ30Z555_CMD_PF_ALERT, "PFAlert", .type = BQ30Z555_TYPE_BLOCK_BITS, .bits = BITS_PF_ALERT, .bits_count = COUNT(BITS_PF_ALERT)},
-    {BQ30Z555_CMD_PF_STATUS, "PFStatus", .type = BQ30Z555_TYPE_BLOCK_BITS, .bits = BITS_PF_STATUS, .bits_count = COUNT(BITS_PF_STATUS)},
-    {BQ30Z555_CMD_OPERATION_STATUS, "OperationStatus", .type = BQ30Z555_TYPE_BLOCK_BITS, .bits = BITS_OPERATION_STATUS, .bits_count = COUNT(BITS_OPERATION_STATUS)},
-    {BQ30Z555_CMD_CHARGING_STATUS, "ChargingStatus", .type = BQ30Z555_TYPE_BLOCK_BITS, .bits = BITS_CHARGING_STATUS, .bits_count = COUNT(BITS_CHARGING_STATUS)},
-    {BQ30Z555_CMD_GAUGING_STATUS, "GaugingStatus", .type = BQ30Z555_TYPE_BLOCK_BITS, .bits = BITS_GAUGING_STATUS, .bits_count = COUNT(BITS_GAUGING_STATUS)},
-    {BQ30Z555_CMD_MANUFACTURING_STATUS, "ManufacturingStatus", .type = BQ30Z555_TYPE_BLOCK_BITS, .bits = BITS_MANUFACTURING_STATUS, .bits_count = COUNT(BITS_MANUFACTURING_STATUS)},
+    {BQ40Z555_CMD_SERIAL_NUMBER, "SerialNumber", "", 0.0f, 1.0f, .type = BQ40Z555_TYPE_WORD_INTEGER},
+    {BQ40Z555_CMD_MANUFACTURER_NAME, "ManufacturerName", "", 0.0f, 1.0f, .type = BQ40Z555_TYPE_BLOCK_ASCII},
+    {BQ40Z555_CMD_DEVICE_NAME, "DeviceName", "", 0.0f, 1.0f, .type = BQ40Z555_TYPE_BLOCK_ASCII},
+    {BQ40Z555_CMD_DEVICE_CHEMISTRY, "DeviceChemistry", "", 0.0f, 1.0f, .type = BQ40Z555_TYPE_BLOCK_ASCII},
+    {BQ40Z555_CMD_MANUFACTURER_DATA, "ManufacturerData", "", 0.0f, 1.0f, .type = BQ40Z555_TYPE_BLOCK_ASCII},
+    {BQ40Z555_CMD_MANUFACTURER_DATE, "ManufacturerDate", "", 0.0f, 1.0f, .type = BQ40Z555_TYPE_WORD_HEX},
+    {BQ40Z555_CMD_VOLTAGE, "Voltage", "V", 0.0f, 0.001f, .type = BQ40Z555_TYPE_WORD_FLOAT},            // mV → V
+    {BQ40Z555_CMD_TEMPERATURE, "Temperature", "°C", -273.15f, 0.1f, .type = BQ40Z555_TYPE_WORD_FLOAT}, // 0.1 K → °C
+    {BQ40Z555_CMD_CURRENT, "Current", "A", 0.0f, 0.001f, .type = BQ40Z555_TYPE_WORD_FLOAT},
+    {BQ40Z555_CMD_CELL_VOLTAGE1, "Cell1Voltage", "V", 0.0f, 0.001f, .type = BQ40Z555_TYPE_WORD_FLOAT},
+    {BQ40Z555_CMD_CELL_VOLTAGE2, "Cell2Voltage", "V", 0.0f, 0.001f, .type = BQ40Z555_TYPE_WORD_FLOAT},
+    {BQ40Z555_CMD_CELL_VOLTAGE3, "Cell3Voltage", "V", 0.0f, 0.001f, .type = BQ40Z555_TYPE_WORD_FLOAT},
+    {BQ40Z555_CMD_CELL_VOLTAGE4, "Cell4Voltage", "V", 0.0f, 0.001f, .type = BQ40Z555_TYPE_WORD_FLOAT},
+    {BQ40Z555_CMD_CYCLE_COUNT, "CycleCount", "cycles", 0.0f, 1.0f, .type = BQ40Z555_TYPE_WORD_INTEGER},
+    {BQ40Z555_CMD_CHARGING_VOLTAGE, "ChargingVoltage", "V", 0.0f, 0.001f, .type = BQ40Z555_TYPE_WORD_FLOAT},
+    {BQ40Z555_CMD_DESIGN_VOLTAGE, "DesignVoltage", "V", 0.0f, 0.001f, .type = BQ40Z555_TYPE_WORD_FLOAT},
+    {BQ40Z555_CMD_MIN_SYS_V, "MinSystemVoltage", "V", 0.0f, 0.001f, .type = BQ40Z555_TYPE_WORD_FLOAT},
+    {BQ40Z555_CMD_AVERAGE_CURRENT, "AverageCurrent", "A", 0.0f, 0.001f, .type = BQ40Z555_TYPE_WORD_FLOAT},
+    {BQ40Z555_CMD_CHARGING_CURRENT, "ChargingCurrent", "A", 0.0f, 0.001f, .type = BQ40Z555_TYPE_WORD_FLOAT},
+    {BQ40Z555_CMD_TURBO_CURRENT, "TurboCurrent", "A", 0.0f, 0.001f, .type = BQ40Z555_TYPE_WORD_FLOAT},
+    {BQ40Z555_CMD_RELATIVE_STATE_OF_CHARGE, "RelativeSoC", "%", 0.0f, 1.0f, .type = BQ40Z555_TYPE_WORD_INTEGER},
+    {BQ40Z555_CMD_ABSOLUTE_STATE_OF_CHARGE, "AbsoluteSoC", "%", 0.0f, 1.0f, .type = BQ40Z555_TYPE_WORD_INTEGER},
+    {BQ40Z555_CMD_STATE_OF_HEALTH, "State of Health", "%", 0.0f, 1.0f, .type = BQ40Z555_TYPE_WORD_INTEGER},
+    {BQ40Z555_CMD_REMAINING_CAPACITY, "RemainingCapacity", "mAh", 0.0f, 1.0f, .type = BQ40Z555_TYPE_WORD_INTEGER},
+    {BQ40Z555_CMD_FULL_CHARGE_CAPACITY, "FullChargeCapacity", "mAh", 0.0f, 1.0f, .type = BQ40Z555_TYPE_WORD_INTEGER},
+    {BQ40Z555_CMD_DESIGN_CAPACITY, "DesignCapacity", "mAh", 0.0f, 1.0f, .type = BQ40Z555_TYPE_WORD_INTEGER},
+    {BQ40Z555_CMD_RUN_TIME_TO_EMPTY, "RunTimeToEmpty", "min", 0.0f, 1.0f, .type = BQ40Z555_TYPE_WORD_INTEGER},
+    {BQ40Z555_CMD_AVERAGE_TIME_TO_EMPTY, "AvgTimeToEmpty", "min", 0.0f, 1.0f, .type = BQ40Z555_TYPE_WORD_INTEGER},
+    {BQ40Z555_CMD_AVERAGE_TIME_TO_FULL, "AvgTimeToFull", "min", 0.0f, 1.0f, .type = BQ40Z555_TYPE_WORD_INTEGER},
+    {BQ40Z555_CMD_BATTERY_STATUS, "BatteryStatus", "", .type = BQ40Z555_TYPE_BLOCK_BITS, .bits = BITS_BATTERY_STATUS, .bits_count = COUNT(BITS_BATTERY_STATUS)},
+    {BQ40Z555_CMD_SAFETY_ALERT, "SafetyAlert", "", .type = BQ40Z555_TYPE_BLOCK_BITS, .bits = SAFETY_ALERT_BITS, .bits_count = COUNT(SAFETY_ALERT_BITS)},
+    {BQ40Z555_CMD_SAFETY_STATUS, "SafetyStatus", .type = BQ40Z555_TYPE_BLOCK_BITS, .bits = BITS_SAFETY_STATUS, .bits_count = COUNT(BITS_SAFETY_STATUS)},
+    {BQ40Z555_CMD_PF_ALERT, "PFAlert", .type = BQ40Z555_TYPE_BLOCK_BITS, .bits = BITS_PF_ALERT, .bits_count = COUNT(BITS_PF_ALERT)},
+    {BQ40Z555_CMD_PF_STATUS, "PFStatus", .type = BQ40Z555_TYPE_BLOCK_BITS, .bits = BITS_PF_STATUS, .bits_count = COUNT(BITS_PF_STATUS)},
+    {BQ40Z555_CMD_OPERATION_STATUS, "OperationStatus", .type = BQ40Z555_TYPE_BLOCK_BITS, .bits = BITS_OPERATION_STATUS, .bits_count = COUNT(BITS_OPERATION_STATUS)},
+    {BQ40Z555_CMD_CHARGING_STATUS, "ChargingStatus", .type = BQ40Z555_TYPE_BLOCK_BITS, .bits = BITS_CHARGING_STATUS, .bits_count = COUNT(BITS_CHARGING_STATUS)},
+    {BQ40Z555_CMD_GAUGING_STATUS, "GaugingStatus", .type = BQ40Z555_TYPE_BLOCK_BITS, .bits = BITS_GAUGING_STATUS, .bits_count = COUNT(BITS_GAUGING_STATUS)},
+    {BQ40Z555_CMD_MANUFACTURING_STATUS, "ManufacturingStatus", .type = BQ40Z555_TYPE_BLOCK_BITS, .bits = BITS_MANUFACTURING_STATUS, .bits_count = COUNT(BITS_MANUFACTURING_STATUS)},
 
 };
 
@@ -364,7 +364,7 @@ static uint32_t bq_extract_bits(const uint8_t *data, size_t len, uint16_t lsb_in
 static int bq_print_bits_from_buffer(const bq_entry *e,
                                      const uint8_t *data, size_t data_len)
 {
-    if (!e || !data || data_len == 0 || e->type != BQ30Z555_TYPE_BLOCK_BITS)
+    if (!e || !data || data_len == 0 || e->type != BQ40Z555_TYPE_BLOCK_BITS)
     {
         return ESP_ERR_INVALID_ARG;
     }
@@ -409,10 +409,10 @@ int bq_generic_dump(const bq_entry *entry)
 
     switch (entry->type)
     {
-    case BQ30Z555_TYPE_BLOCK_BITS:
+    case BQ40Z555_TYPE_BLOCK_BITS:
     {
         uint8_t resp_len[1] = {0};
-        int err = i2c_write_read(BQ30Z555_I2C_ADDR, &cmd, sizeof(cmd), resp_len, sizeof(resp_len));
+        int err = i2c_write_read(BQ40Z555_I2C_ADDR, &cmd, sizeof(cmd), resp_len, sizeof(resp_len));
         if (err)
         {
             ESP_LOGE(TAG, "%s: i2c_write_read failed (err=%d)", entry->name, err);
@@ -421,7 +421,7 @@ int bq_generic_dump(const bq_entry *entry)
 
         uint8_t len = resp_len[0];
         uint8_t resp_data[256];
-        err = i2c_write_read(BQ30Z555_I2C_ADDR, &cmd, sizeof(cmd), resp_data, 1 + len);
+        err = i2c_write_read(BQ40Z555_I2C_ADDR, &cmd, sizeof(cmd), resp_data, 1 + len);
         if (err)
         {
             ESP_LOGE(TAG, "%s: i2c_write_read failed (err=%d)", entry->name, err);
@@ -432,11 +432,11 @@ int bq_generic_dump(const bq_entry *entry)
 
         break;
     }
-    case BQ30Z555_TYPE_BLOCK_ASCII:
-    case BQ30Z555_TYPE_BLOCK_HEX:
+    case BQ40Z555_TYPE_BLOCK_ASCII:
+    case BQ40Z555_TYPE_BLOCK_HEX:
     {
         uint8_t resp_len[1] = {0};
-        int err = i2c_write_read(BQ30Z555_I2C_ADDR, &cmd, sizeof(cmd), resp_len, sizeof(resp_len));
+        int err = i2c_write_read(BQ40Z555_I2C_ADDR, &cmd, sizeof(cmd), resp_len, sizeof(resp_len));
         if (err)
         {
             ESP_LOGE(TAG, "%s: i2c_write_read failed (err=%d)", entry->name, err);
@@ -445,7 +445,7 @@ int bq_generic_dump(const bq_entry *entry)
 
         uint8_t len = resp_len[0];
         uint8_t resp_data[256];
-        err = i2c_write_read(BQ30Z555_I2C_ADDR, &cmd, sizeof(cmd), resp_data, 1 + len);
+        err = i2c_write_read(BQ40Z555_I2C_ADDR, &cmd, sizeof(cmd), resp_data, 1 + len);
         if (err)
         {
             ESP_LOGE(TAG, "%s: i2c_write_read failed (err=%d)", entry->name, err);
@@ -461,12 +461,12 @@ int bq_generic_dump(const bq_entry *entry)
         }
         switch (entry->type)
         {
-        case BQ30Z555_TYPE_BLOCK_ASCII:
+        case BQ40Z555_TYPE_BLOCK_ASCII:
         {
             printf("%-32s: '%.*s' %s\n", entry->name, len, &resp_data[1], entry->unit);
             break;
         }
-        case BQ30Z555_TYPE_BLOCK_HEX:
+        case BQ40Z555_TYPE_BLOCK_HEX:
         {
             printf("%-32s: '", entry->name);
             for (int pos = 0; pos < len; pos++)
@@ -484,12 +484,12 @@ int bq_generic_dump(const bq_entry *entry)
 
         break;
     }
-    case BQ30Z555_TYPE_WORD_HEX:
-    case BQ30Z555_TYPE_WORD_FLOAT:
-    case BQ30Z555_TYPE_WORD_INTEGER:
+    case BQ40Z555_TYPE_WORD_HEX:
+    case BQ40Z555_TYPE_WORD_FLOAT:
+    case BQ40Z555_TYPE_WORD_INTEGER:
     {
         uint8_t resp[2] = {0};
-        int err = i2c_write_read(BQ30Z555_I2C_ADDR, &cmd, sizeof(cmd), resp, sizeof(resp));
+        int err = i2c_write_read(BQ40Z555_I2C_ADDR, &cmd, sizeof(cmd), resp, sizeof(resp));
         if (err)
         {
             ESP_LOGE(TAG, "%s: i2c_write_read failed (err=%d)", entry->name, err);
@@ -500,18 +500,18 @@ int bq_generic_dump(const bq_entry *entry)
 
         switch (entry->type)
         {
-        case BQ30Z555_TYPE_WORD_HEX:
+        case BQ40Z555_TYPE_WORD_HEX:
         {
             printf("%-32s: 0x%08X %s\n", entry->name, raw, entry->unit);
             break;
         }
-        case BQ30Z555_TYPE_WORD_FLOAT:
+        case BQ40Z555_TYPE_WORD_FLOAT:
         {
             float val = raw * entry->scaling + entry->offset;
             printf("%-32s: %02.3f %s\n", entry->name, val, entry->unit);
             break;
         }
-        case BQ30Z555_TYPE_WORD_INTEGER:
+        case BQ40Z555_TYPE_WORD_INTEGER:
         {
             float val = raw * entry->scaling + entry->offset;
             printf("%-32s: %d %s\n", entry->name, (int)val, entry->unit);
@@ -557,10 +557,10 @@ int bq_print_lifetime_block_decoded(int n)
         return ESP_ERR_INVALID_ARG;
     }
 
-    uint8_t cmd = (uint8_t)(BQ30Z555_CMD_LIFETIME_DATA1 + (n - 1));
+    uint8_t cmd = (uint8_t)(BQ40Z555_CMD_LIFETIME_DATA1 + (n - 1));
 
     uint8_t resp_len[1] = {0};
-    int err = i2c_write_read(BQ30Z555_I2C_ADDR, &cmd, sizeof(cmd), resp_len, sizeof(resp_len));
+    int err = i2c_write_read(BQ40Z555_I2C_ADDR, &cmd, sizeof(cmd), resp_len, sizeof(resp_len));
     if (err)
     {
         ESP_LOGE(TAG, "LifetimeData%d: i2c I/O err %d", n, err);
@@ -571,7 +571,7 @@ int bq_print_lifetime_block_decoded(int n)
 
     uint8_t resp[256] = {0};
 
-    err = i2c_write_read(BQ30Z555_I2C_ADDR, &cmd, sizeof(cmd), resp, 1 + len);
+    err = i2c_write_read(BQ40Z555_I2C_ADDR, &cmd, sizeof(cmd), resp, 1 + len);
     if (err)
     {
         ESP_LOGE(TAG, "LifetimeData%d: i2c I/O err %d", n, err);
@@ -621,7 +621,7 @@ int bq_print_lifetime_block_decoded(int n)
 // ──────────────────────────────────────────────────────────────────────────────
 
 /**
- * @brief Read pack voltage from the BQ30Z555.
+ * @brief Read pack voltage from the BQ40Z555.
  *
  * The SBS Voltage() command returns a *word* (little-endian 16 bit) that
  * represents the pack voltage in millivolts. We issue a single-byte write of

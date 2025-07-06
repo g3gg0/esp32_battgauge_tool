@@ -3,6 +3,8 @@
 This project, `esp32_battgauge_tool`, is an ESP-IDF application that provides a versatile command-line interface over Telnet for interacting with I2C devices using an ESP32.
 It was initially created as a helper to read and write data from the TI BQ40Z555 battery gauge, which is commonly used in certain Acer battery packs.
 
+I made heavy use of LLMs like ChatGPT-o3 and Gemini 2.5 Pro to speed up my programming here. It's a huge time saver to just not implement a commandline arg parser the 100th time by hand :)
+
 ## Story
 I received a notebook which was said to have trouble charging the battery. Power supply and battery were swapped and still no charging.
 When checking, the battery didn't supply any voltage when plugged into the laptop.

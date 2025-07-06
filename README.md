@@ -1,6 +1,7 @@
-# i2c_shell: ESP32 I2C Command-Line Tool
+#     esp32_battgauge_tool: ESP32 I2C Command-Line Tool for battery gauge chips
 
-This project, `i2c_shell`, is an ESP-IDF application that provides a versatile command-line interface over Telnet for interacting with I2C devices using an ESP32. It was initially created as a helper to read and write data from the TI BQ40Z555 battery gauge, which is commonly used in certain Acer battery packs.
+This project, `esp32_battgauge_tool`, is an ESP-IDF application that provides a versatile command-line interface over Telnet for interacting with I2C devices using an ESP32.
+It was initially created as a helper to read and write data from the TI BQ40Z555 battery gauge, which is commonly used in certain Acer battery packs.
 
 ## Story
 I received a notebook which was said to have trouble charging the battery. Power supply and battery were swapped and still no charging.

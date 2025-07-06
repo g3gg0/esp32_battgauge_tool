@@ -2,6 +2,21 @@
 
 This project, `i2c_shell`, is an ESP-IDF application that provides a versatile command-line interface over Telnet for interacting with I2C devices using an ESP32. It was initially created as a helper to read and write data from the TI BQ40Z555 battery gauge, which is commonly used in certain Acer battery packs.
 
+## Story
+I received a notebook which was said to have trouble charging the battery. Power supply and battery were swapped and still no charging.
+When checking, the battery didn't supply any voltage when plugged into the laptop.
+I tore the battery down and all cells were quite low, that's why the battery controller denied voltage supply.
+
+Tried to charge the cells and still the controller didn't give me any voltage.
+
+Checking the interwebs, I only could find the NLBA1 or other commercial tools to get deeper into the root of my problems here.
+So the rabbit hole began...
+
+## What can it do?
+You can only read the current status bits, voltages, history data and such.
+The chip might be locked into a secure mode, so you can not write data to it, but thats not the use case here.
+So no actions were taken to crack the key required for unsealing and such.
+
 ## Features
 
 *   **Wi-Fi Telnet Access:** A command-line shell accessible over Wi-Fi via any standard Telnet client.

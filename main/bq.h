@@ -38,6 +38,7 @@ typedef struct {
     uint8_t bit;
     uint8_t width;
     const char *desc;
+    const char *long_desc;
 } bq_bit_desc_t;
 
 
@@ -86,11 +87,12 @@ typedef struct bq_entry
 #define BQ30Z555_CMD_DEVICE_NAME 0x21
 #define BQ30Z555_CMD_DEVICE_CHEMISTRY 0x22
 #define BQ30Z555_CMD_MANUFACTURER_DATA 0x23
-#define BQ30Z555_CMD_MANUFACTURER_INPUT 0x2F
+#define BQ30Z555_CMD_AUTHENTICATE 0x2F
 #define BQ30Z555_CMD_CELL_VOLTAGE4 0x3C // Cell 3 → index order per TI
 #define BQ30Z555_CMD_CELL_VOLTAGE3 0x3D
 #define BQ30Z555_CMD_CELL_VOLTAGE2 0x3E
 #define BQ30Z555_CMD_CELL_VOLTAGE1 0x3F
+#define BQ30Z555_CMD_STATE_OF_HEALTH 0x4F
 #define BQ30Z555_CMD_SAFETY_ALERT 0x50
 #define BQ30Z555_CMD_SAFETY_STATUS 0x51
 #define BQ30Z555_CMD_PF_ALERT 0x52

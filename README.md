@@ -22,6 +22,7 @@ So no actions were taken to crack the key required for unsealing and such.
 
 ## Features
 
+*   **Serial Terminal:** A command-line shell with a few commands for I2C and BQ commands
 *   **Wi-Fi Telnet Access:** A command-line shell accessible over Wi-Fi via any standard Telnet client.
 *   **Generic I2C Commands:**
     *   `i2cscan`: Scans the I2C bus to discover connected devices.
